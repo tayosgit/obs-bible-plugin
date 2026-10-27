@@ -1,0 +1,77 @@
+function splitSongVerses(text) {
+  // Handles:
+  // Windows: \r\n\r\n
+  // Unix/Linux/macOS: \n\n
+  // Old Mac (rare): \r\r
+  return text.split(/\r\n\r\n|\n\n|\r\r/);
+}
+
+const  splitAndOrganizeText = (text) => {
+    // const verses = text.split('\r\n\r\n');
+    const verses = splitSongVerses(text);
+    const container = document.getElementById('song-display');
+    const songDiv = document.getElementById('song');
+
+    // empty the
+    songDiv.innerHTML = null;
+    let chorusDiv = null; // Initialize a variable to hold the chorus div
+
+    verses.forEach((verse, index) => {
+        const div = document.createElement('div');
+        const paragraph = verse.split(/\r\n|\n|\r/);
+
+        // Assign an id based on content
+        if (paragraph[0].includes('CHORUS')) {
+            div.id = 'song-chorus';
+            div.classList.add("chorus");
+            chorusDiv = div; // Store the chorus div
+        } else {
+            div.id = `song-verse-${index + 1}`;
+            div.classList.add("verse");
+        }
+
+        paragraph.forEach(line => {
+            const p = document.createElement('p');
+            p.textContent = line;
+            div.appendChild(p);
+        });
+
+        container.appendChild(div);
+
+        // Append the chorus div after verse divs
+        if (chorusDiv && div.id.startsWith('song-verse-')) {
+            container.appendChild(chorusDiv.cloneNode(true));
+        }
+    });
+    songDiv.appendChild(container);
+    displaySong();
+}
+
+const handleFileSelect =  async (event) => {
+    const file = event.target.files[0];
+
+    if (file) {
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+            const songDisplay = document.getElementById('song-display');
+            const content = e.target.result;
+            const lines = content.split('\n');
+
+            // Clear the previous content
+            songDisplay.innerHTML = '';
+
+            splitAndOrganizeText(content);
+        };
+
+        reader.readAsText(file);
+    }
+}
+
+// Add an event listener to the file input element
+document.getElementById('song-file-upload').addEventListener('change', (event) =>{
+    handleFileSelect(event);
+});
+
+
+
