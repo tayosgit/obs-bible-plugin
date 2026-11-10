@@ -59,6 +59,13 @@ The following are shortcuts
 8. Shift + J Justify Align
 
 
+## WOIC Settings
+Set these in the dock's **Settings** tab:
+- Font: Helvetica
+- Background color: R 47, G 127, B 193 (`#2F7FC1`)
+- Font color: R 29, G 27, B 27 (`#1D1B1B`)
+- Title color: R 211, G 212, B 223 (`#D3D4DF`)
+
 ## How to Display A Bible Passage
 1. Go to the Bible tab
 2. Search for the Bible Passage with name such is **John 1:1** or with a passage from the scripture as: **Love your neighbor as yourself**
